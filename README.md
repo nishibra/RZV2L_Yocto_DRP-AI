@@ -2,13 +2,13 @@
 
 ルネサスのARP-AIの使い方のサンプルを実行します。
 
-Refernce
+### Refernce
 
 [Yoctoを使って開発環境を構築](https://qiita.com/Lathe/items/63bed2701d91e098761c)
 
 [Run Machine Learning on the RZBoard](https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098)
 
-目次
+### 目次
 ```
 Renesas 画像処理ライブラリを使ってみよう。まずはYoloV3を使ってみます。
 1.Ubuntu20.04のインストール
