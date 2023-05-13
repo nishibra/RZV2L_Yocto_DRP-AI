@@ -54,8 +54,6 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 cd drp-ai_translator_release 
 ./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx
 
-
-
 ```
 
 ### netron
@@ -63,13 +61,10 @@ cd drp-ai_translator_release
 ```
 $ sudo snap install netron
 $ netron
-
-
-
-
 ```
 
-### comple
+### comple program
+
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
 $ cd /home/nishi/drpai_sp/rzv2l_drpai-sample-application/app_yolo_img/src
@@ -87,21 +82,27 @@ $ scp sample_app_tinyyolov3_img root@192.168.8.99:~root
 # chmod +x sample_app_tinyyolov3_img
 
 $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
+
+```
+
+### Linux command
+```
 cp 
+scp
 rm
 rm -d
 rm -r
-
 ```
 
 ### SSH
+
 ```
 ssh root@192.168.8.99
 ```
+
 制限対応
 
 https://zenn.dev/seiwell/articles/98ea9c97aa7992
-
 
 
 ### YOLOv2で物体検出を学習させてみよう
@@ -112,22 +113,31 @@ https://qiita.com/garcoo/items/c21ff0e48e495420c0d1
 
 https://github.com/leetenki/YOLOv2/blob/master/YOLOv2.md
 
-### app_usbcam_http
+
+### Sample--app_usbcam_http
+
+home/app_usbcam_httpにコピーします。
+
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
-$ cd /home/nishi/drpai_sp/rzv2l_drpai-sample-application/app_usbcam_http/src
+$ cd /home/nishi/app_usbcam_http/src
 $ mkdir ./build
 $ cd ./build
 $ cmake ..
 $ make
+```
 
-cp src/build/sample_app_usbcam_http /exe
-tar -zcvf web.tar.gz exe
-scp web.tar.gz root@192.168.8.99:~root
-tar -xzvf web.tar.gz
-chmod +x sample_app_usm_http
-./sample_app_usm_http
-
-etc/Websocket_Client directory is copied to /<any_directory> in PC)
+makeが完了したら
 
 ```
+$ cp src/build/sample_app_usbcam_http /exe
+$ tar -zcvf web.tar.gz exe
+$ scp web.tar.gz root@192.168.8.99:~root
+
+# tar -xzvf web.tar.gz
+# chmod +x sample_app_usm_http
+# ./sample_app_usm_http
+```
+
+etc/Websocket_Client directory をPCにコピーして表示します。
+
