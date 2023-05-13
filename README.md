@@ -1,21 +1,15 @@
 # RZ_yocto_AI
 
-### 方法2：Yoctoを使って開発環境を構築
+ルネサスのARP-AIの使い方のサンプルを実行します。
 
-https://qiita.com/Lathe/items/63bed2701d91e098761c
+<Refernce>
+[Yoctoを使って開発環境を構築](https://qiita.com/Lathe/items/63bed2701d91e098761c)
 
-### Run Machine Learning on the RZBoard
+[Run Machine Learning on the RZBoard](https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098)
 
-https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098
-
-### copy files to RZBoard
-
-scp resnet50_cam_exe.tar.gz root@192.168.8.99:~root
-
+目次
 ```
-
-Renesas 画像処理ライブラリを使ってみる。
-YoloV3を使ってみよう。
+Renesas 画像処理ライブラリを使ってみよう。まずはYoloV3を使ってみます。
 1.Ubuntu20.04のインストール
 2.OpenCVのインストール
 3.ONNXへ変換
@@ -26,8 +20,6 @@ YoloV3を使ってみよう。
 8.コピー
 9.RZBoardで実行
 10.デバッグの繰り返し
-
-
 ```
 
 ### Install PyTorch
@@ -78,19 +70,19 @@ $ netron
 
 ### comple
 ```
-$ source /opt/poky/3.1.14/environment-setup-aarch64-poky-linux
+$ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
 $ cd /home/nishi/drpai_sp/rzv2l_drpai-sample-application/app_yolo_img/src
 cmake ..
 $ make
 
 $ tar -zcvf tinyyolov3_bmp.tar.gz tinyyolov3_bmp
-tar -zcvf yi.tar.gz yi
+  (tar -zcvf yi.tar.gz yi)
 
 $ scp tinyyolov3_bmp.tar.gz root@192.168.8.99:~root/app
 $ scp sample_app_tinyyolov3_img root@192.168.8.99:~root
-scp yi.tar.gz root@192.168.8.99:~root
+  (scp yi.tar.gz root@192.168.8.99:~root)
 # tar -xzvf tinyyolov3_bmp.tar.gz
-tar -xzvf yi.tar.gz
+  (tar -xzvf yi.tar.gz)
 # chmod +x sample_app_tinyyolov3_img
 
 $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
@@ -104,10 +96,12 @@ rm -r
 ### SSH
 ```
 ssh root@192.168.8.99
+```
+制限対応
 
 https://zenn.dev/seiwell/articles/98ea9c97aa7992
 
-```
+
 
 ### YOLOv2で物体検出を学習させてみよう
 
