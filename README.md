@@ -13,19 +13,6 @@ https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098
 scp resnet50_cam_exe.tar.gz root@192.168.8.99:~root
 
 ```
-WindowsでのPython開発
-1.tera-termのインストールと設定
-2.RZBoardの設定
-3.LANの接続
-4.bootの書き込み
-5.avnetのyoctoイメージの書き込み
-6.tera-termの起動/ifconfigでIP
-7.WiFiの接続/ifconfigでIP
-8.コマンドプロンプトの起動
-9.Windows editorでPythonプログラムの作成
-10.scp class_fish_calib.py root@192.168.8.99:~root
-11.tera-termでプログラム起動
-12.バグはWindowsで編集/転送
 
 Renesas 画像処理ライブラリを使ってみる。
 YoloV3を使ってみよう。
@@ -40,11 +27,7 @@ YoloV3を使ってみよう。
 9.RZBoardで実行
 10.デバッグの繰り返し
 
-Yocto LinuxのBitbake
-1.Renesas libの準備
-2.必要なlibの準備
-3.レシピの設定
-4.Bitbake
+
 ```
 
 ### Install PyTorch
