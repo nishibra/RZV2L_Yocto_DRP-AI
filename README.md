@@ -100,7 +100,7 @@ rm -r
 ssh root@192.168.8.99
 ```
 
-制限対応
+パスワード認証対応法
 
 https://zenn.dev/seiwell/articles/98ea9c97aa7992
 
