@@ -2,7 +2,7 @@
 
 ルネサスのARP-AIの使い方のサンプルを実行します。
 
-<Refernce>
+Refernce
 
 [Yoctoを使って開発環境を構築](https://qiita.com/Lathe/items/63bed2701d91e098761c)
 
