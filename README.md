@@ -85,18 +85,33 @@ $ scp sample_app_tinyyolov3_img root@192.168.8.99:~root
 $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
 
 ```
+### app_tinyyolov2_cam
+
+MIPI camra 
+
+```
+source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
+cd ~/app_tinyyolov2_cam/src
+make
+tar -zcvf y2cam.tar.gz exe
+scp y2cam.tar.gz root@192.168.8.99:~root/drp
+tar -xzvf y2cam.tar.gz
+chmod +x sample_app_tinyyolov2_cam
+./sample_app_tinyyolov2_cam
+```
+
 
 ### Linux command
 ```
 $cp  #copy A to B 
 $scp #copy A to B@IP
 $rm  #remove
-$rm -d #remove derectory
-$rm -r 
+$rm -d #remove empity derectory
+$rm -r #remove derectory
 Sssh root@192.168.8.99
 ```
 
-パスワード認証対応法
+SSH パスワード認証対応法
 
 https://zenn.dev/seiwell/articles/98ea9c97aa7992
 
