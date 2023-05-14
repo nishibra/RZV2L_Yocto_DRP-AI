@@ -25,6 +25,8 @@ Renesas 画像処理ライブラリを使ってみよう。まずはYoloV3を使
 
 ### Install PyTorch
 
+pip3 install torch==1.13.0+cpu torchvision==0.14.0+cpu torchaudio==0.13.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
 https://www.linode.com/docs/guides/pytorch-installation-ubuntu-2004/
 ```
 $ sudo apt update
@@ -36,8 +38,12 @@ $python3
 ```
 
 ### darknet_yolo to pytorch model
+
+rzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解答します。
+
+
 ```
-cd darknet_yolo_work/darknet/yolo
+cd rz_ai_work/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
 ```
 
