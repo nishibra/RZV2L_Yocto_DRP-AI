@@ -63,7 +63,8 @@ $ sudo snap install netron
 $ netron
 ```
 
-### comple program
+### Comple sample program: app_yolo_img
+
 
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
