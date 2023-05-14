@@ -87,17 +87,12 @@ $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
 
 ### Linux command
 ```
-cp 
-scp
-rm
-rm -d
-rm -r
-```
-
-### SSH
-
-```
-ssh root@192.168.8.99
+$cp  #copy A to B 
+$scp #copy A to B@IP
+$rm  #remove
+$rm -d #remove derectory
+$rm -r 
+Sssh root@192.168.8.99
 ```
 
 パスワード認証対応法
