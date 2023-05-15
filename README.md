@@ -65,26 +65,28 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 $ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
 $ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
 ```
-hmoeにdrp-ai_translator_release かできる。
+homeにdrp-ai_translator_release かできる。
 
 onnx
  d-tinyyolov3.onnx
 
 UserConfig
-addrmap_in_tiny_yolov2.yaml
-prepost_tiny_yolov2.yaml
-
-
+addrmap_in_tiny_yolov3.yaml
+prepost_tiny_yolov3.yaml
 
 
 
 ```
-cd drp-ai_translator_release 
-./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx
+$ cd drp-ai_translator_release
+($ ./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx)
+$ ./run_DRP-AI_translator_V2L.sh d-tinyyolov3 -onnx ./onnx/d-tinyyolov3.onnx
 
+$ python3 postprocess_yolo.py tinyyolov3
 ```
 
 ### netron
+
+netronで入出力確認
 
 ```
 $ sudo snap install netron
