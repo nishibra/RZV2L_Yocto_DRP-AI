@@ -45,8 +45,10 @@ rzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解
 
 
 ```
-cd rz_ai_work/darknet/yolo
+$ cd ~/rz_ai_work/darknet_yolo/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
+
+
 ```
 
 ### pytorch model to ONNX
