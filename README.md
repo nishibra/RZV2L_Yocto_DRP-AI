@@ -60,6 +60,24 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 ```
 
 ### ONNX to DRP-AI model
+
+```
+$ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
+$ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
+```
+hmoeにdrp-ai_translator_release かできる。
+
+onnx
+ d-tinyyolov3.onnx
+
+UserConfig
+addrmap_in_tiny_yolov2.yaml
+prepost_tiny_yolov2.yaml
+
+
+
+
+
 ```
 cd drp-ai_translator_release 
 ./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx
