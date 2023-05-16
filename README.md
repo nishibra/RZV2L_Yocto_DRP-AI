@@ -164,7 +164,7 @@ https://github.com/leetenki/YOLOv2/blob/master/YOLOv2.md
 
 ### Sample--app_usbcam_http
 
-USBカメラの動画から推論結果をScketに贈ります。
+USBカメラの動画から推論結果をScketに送ります。
 
 まずhome/app_usbcam_httpにコピーします。
 
