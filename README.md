@@ -42,7 +42,7 @@ $ sudo apt update
 $ sudo apt upgrade
 $ sudo apt install python3-pip
 $ pip3 install -f torch torchvision
-$python3
+$ python3
 >import torch
 ```
 
@@ -69,16 +69,16 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 $ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
 $ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
 ```
-homeにdrp-ai_translator_release かできます。
+ homeにdrp-ai_translator_release かできます。
 
-onnxフォルダーに作成したonnx file をコピーします。
+ onnxフォルダーに作成したonnx file をコピーします。
 ```
-d-tinyyolov3.onnx
+ d-tinyyolov3.onnx
 ```
 UserConfigに以下のファイルを作成します。
 ```
-addrmap_in_tiny_yolov3.yaml
-prepost_tiny_yolov3.yaml
+ addrmap_in_tiny_yolov3.yaml
+ prepost_tiny_yolov3.yaml
 ```
 RP-AI用に変換します>
 ```
@@ -125,14 +125,15 @@ $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
 MIPI camraを使って推論します。
 
 ```
-source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
-cd ~/app_tinyyolov2_cam/src
-make
-tar -zcvf y2cam.tar.gz exe
-scp y2cam.tar.gz root@192.168.8.99:~root/drp
-tar -xzvf y2cam.tar.gz
-chmod +x sample_app_tinyyolov2_cam
-./sample_app_tinyyolov2_cam
+$ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
+$ cd ~/app_tinyyolov2_cam/src
+$ make
+$ tar -zcvf y2cam.tar.gz exe
+$ scp y2cam.tar.gz root@192.168.8.99:~root/drp
+
+# tar -xzvf y2cam.tar.gz
+# chmod +x sample_app_tinyyolov2_cam
+# ./sample_app_tinyyolov2_cam
 ```
 
 
@@ -140,12 +141,12 @@ chmod +x sample_app_tinyyolov2_cam
 
 よく使うLinuxコマンドをリストアップしました。
 ```
-$cp  #copy A to B 
-$scp #copy A to B@IP
-$rm  #remove
-$rm -d #remove empity derectory
-$rm -r #remove derectory
-Sssh root@192.168.8.99
+$ cp  #copy A to B 
+$ scp #copy A to B@IP
+$ rm  #remove
+$ rm -d #remove empity derectory
+$ rm -r #remove derectory
+S ssh root@192.168.8.99
 ```
 
 SSH パスワード認証対応法
