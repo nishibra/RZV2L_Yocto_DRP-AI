@@ -1,6 +1,6 @@
 # RZ_yocto_AI
 
-ルネサスのARP-AIの使い方のサンプルを実行します。
+ルネサスのDRP-AIの使い方とサンプルを実行します。
 
 ### Refernce
 
@@ -8,19 +8,26 @@
 
 [Run Machine Learning on the RZBoard](https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098)
 
-### 目次
+### 進め方
+
+Renesas 画像処理ライブラリDRP-AIを使ってみよう。
+
+まずUbuntu PCを準備します。
 ```
-Renesas 画像処理ライブラリを使ってみよう。まずはYoloV3を使ってみます。
 1.Ubuntu20.04のインストール
 2.OpenCVのインストール
-3.ONNXへ変換
-4.Renesusモデルへ変換
-5.プログラム作成
-6.SDKのインストール/クロスコンパイラー
-7.make
-8.コピー
-9.RZBoardで実行
-10.デバッグの繰り返し
+3.Pytorchのインストール
+
+4.YoloからPytorchへ変換
+5.PytorchからONNXへ変換
+6.DRP-AIモデルへ変換
+
+7.SDKのインストール/クロスコンパイラーのYocto bit bake
+8.サンプルプログラム確認と修正
+9.make
+10.RZへコピー
+11.RZBoardで実行
+12.デバッグの繰り返し(8以降を繰り返す)
 ```
 
 ### Install PyTorch
@@ -43,18 +50,15 @@ $python3
 
 rzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解答します。
 
-
 ```
 $ cd ~/rz_ai_work/darknet_yolo/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
-
 
 ```
 
 ### pytorch model to ONNX
 ```
 $ python3 convert_to_onnx.py tinyyolov3
-
 
 convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 ```
@@ -65,17 +69,18 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 $ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
 $ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
 ```
-homeにdrp-ai_translator_release かできる。
+homeにdrp-ai_translator_release かできます。
 
-onnx
- d-tinyyolov3.onnx
-
-UserConfig
+onnxフォルダーに作成したonnx file をコピーします。
+```
+d-tinyyolov3.onnx
+```
+UserConfigに以下のファイルを作成します。
+```
 addrmap_in_tiny_yolov3.yaml
 prepost_tiny_yolov3.yaml
-
-
-
+```
+RP-AI用に変換します>
 ```
 $ cd drp-ai_translator_release
 ($ ./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx)
@@ -86,7 +91,7 @@ $ python3 postprocess_yolo.py tinyyolov3
 
 ### netron
 
-netronで入出力確認
+netronでmodelの入出力を確認します。
 
 ```
 $ sudo snap install netron
@@ -95,7 +100,7 @@ $ netron
 
 ### Comple sample program: app_yolo_img
 
-
+画像ファイルを読み込み推論結果を画像として出力します。
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
 $ cd /home/nishi/drpai_sp/rzv2l_drpai-sample-application/app_yolo_img/src
@@ -117,7 +122,7 @@ $ scp root@192.168.8.99:~root/yi/sample_output.bmp /tmp
 ```
 ### app_tinyyolov2_cam
 
-MIPI camra 
+MIPI camraを使って推論します。
 
 ```
 source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
@@ -132,6 +137,8 @@ chmod +x sample_app_tinyyolov2_cam
 
 
 ### Linux command
+
+よく使うLinuxコマンドをリストアップしました。
 ```
 $cp  #copy A to B 
 $scp #copy A to B@IP
@@ -157,7 +164,9 @@ https://github.com/leetenki/YOLOv2/blob/master/YOLOv2.md
 
 ### Sample--app_usbcam_http
 
-home/app_usbcam_httpにコピーします。
+USBカメラの動画から推論結果をScketに贈ります。
+
+まずhome/app_usbcam_httpにコピーします。
 
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
@@ -168,7 +177,7 @@ $ cmake ..
 $ make
 ```
 
-makeが完了したら
+makeが完了したらRZにコピーして実行します。
 
 ```
 $ cp src/build/sample_app_usbcam_http /exe
