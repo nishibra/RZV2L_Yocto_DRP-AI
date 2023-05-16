@@ -57,6 +57,9 @@ $ python3 convert_to_pytorch.py tinyyolov3
 ```
 
 ### pytorch model to ONNX
+
+convert_to_onnx.py内のinput sizeの変更
+
 ```
 $ python3 convert_to_onnx.py tinyyolov3
 
