@@ -198,7 +198,17 @@ $ scp web.tar.gz root@192.168.8.99:~root
 
 etc/Websocket_Client directory をPCにコピーして表示します。
 
+DRP-AIのerror
+```
+cd drp-ai_translator_release
+cd output
+tar -zcvf mod.tar.gz d-tinyyolov3
+scp mod.tar.gz root@192.168.8.99:~root
 
+別画面
+$ ssh root@192.168.8.99
+# tar -xzvf mod.tar.gz exe/
+```
 
 ### yolo.iniの編集
 ```
