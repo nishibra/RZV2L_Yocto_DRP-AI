@@ -83,6 +83,9 @@ UserConfigに以下のファイルを作成します。
  addrmap_in_tiny_yolov3.yaml
  prepost_tiny_yolov3.yaml
 ```
+
+### DRP-AI_Translator
+
 RP-AI用に変換します>
 ```
 $ cd drp-ai_translator_release
