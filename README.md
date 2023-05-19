@@ -1,4 +1,4 @@
-# RZ_yocto_DRP-AI
+# RZV2L_yocto_DRP-AI
 
 ルネサスのDRP-AIの使い方とサンプルを実行します。
 
