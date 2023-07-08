@@ -1,6 +1,6 @@
 # RZV2L_Yocto_DRP-AI
 
-ルネサスのDRP-AIの使い方とサンプルを実行します。
+ルネサスのDRP-AIの使い方をサンプルを実行し学びます。
 
 ### Refernce
 
@@ -14,15 +14,15 @@ Renesas 画像処理ライブラリDRP-AIを使ってみよう。
 
 まずUbuntu PCを準備します。
 ```
-1.Ubuntu20.04のインストール
-2.OpenCVのインストール
+1.Ubuntu20.04のインストール(省略)
+2.OpenCVのインストール(省略)
 3.Pytorchのインストール
 
 4.YoloからPytorchへ変換
 5.PytorchからONNXへ変換
 6.DRP-AIモデルへ変換
 
-7.SDKのインストール/クロスコンパイラーのYocto bit bake
+7.SDKのインストール/クロスコンパイラーのYocto bit bake(省略)
 8.サンプルプログラム確認と修正
 9.make
 10.RZへコピー
@@ -32,9 +32,11 @@ Renesas 画像処理ライブラリDRP-AIを使ってみよう。
 
 ### Install PyTorch
 
+以下を実行し、PyTorchをインストールします。
 ```
 $ pip3 install torch==1.13.0+cpu torchvision==0.14.0+cpu torchaudio==0.13.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
 ```
+詳細は以下をご損傷下さい。
 
 https://www.linode.com/docs/guides/pytorch-installation-ubuntu-2004/
 ```
