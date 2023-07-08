@@ -50,7 +50,7 @@ $ python3
 
 ### darknet_yolo to pytorch model
 
-rzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解答します。
+Rexsasのサイトからダウンロードしたrzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解答します。
 yolo.iniで出力名を変更できます。
 
 ```
