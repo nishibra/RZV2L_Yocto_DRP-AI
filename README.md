@@ -54,19 +54,30 @@ Rexsasのサイトからダウンロードしたrzv21l-drpai_sp.zip からrzv_ai
 yolo.iniで出力名を変更できます。
 
 ```
-$ cd ~/rz_ai_work/darknet_yolo/darknet/yolo
+[tinyyolov3]
+cfg     =yolov3-tiny.cfg
+weights =yolov3-tiny.weights
+pth     =yolov3-tiny.pth
+input   =["input1"]
+output  =["output1", "output2"]
+onnx    =tinyyolov3_jan.onnx
+```
+onnxをtinyyolov3_jan.onnxなどとします。
+
+```
+$ cd ~/rz_ai_work/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
 
 ```
 
 ### pytorch model to ONNX
 
-convert_to_onnx.py内のinput sizeの変更
+convert_to_onnx.py内のinput sizeの変更もできますがtranslatorが対応していないので416*416で実施します。
 
 ```
 $ python3 convert_to_onnx.py tinyyolov3
 
-convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
+convert_to_pytorch.py convert_to_onnx.py tinyyolov3_jan.onnx yolov3.pth
 ```
 
 ### ONNX to DRP-AI model
@@ -75,7 +86,7 @@ convert_to_pytorch.py convert_to_onnx.py d-yolov3.onnx yolov3.pth
 $ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
 $ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
 ```
- homeにdrp-ai_translator_release かできます。
+ homeにdrp-ai_translator_release ができます。
 
  onnxフォルダーに作成したonnx file をコピーします。
 ```
