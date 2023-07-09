@@ -2,13 +2,13 @@
 
 ルネサスのDRP-AIの使い方をサンプルを実行し学びます。
 
-### Refernce
+## Refernce
 
 [Yoctoを使って開発環境を構築](https://qiita.com/Lathe/items/63bed2701d91e098761c)
 
 [Run Machine Learning on the RZBoard](https://www.hackster.io/monica/run-machine-learning-on-the-rzboard-326098)
 
-### 進め方
+## 進め方
 
 Renesas 画像処理ライブラリDRP-AIを使ってみよう。
 
@@ -36,17 +36,9 @@ Renesas 画像処理ライブラリDRP-AIを使ってみよう。
 ```
 $ pip3 install torch==1.13.0+cpu torchvision==0.14.0+cpu torchaudio==0.13.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
 ```
-詳細は以下をご損傷下さい。
+以下をご参照下さい。
 
 https://www.linode.com/docs/guides/pytorch-installation-ubuntu-2004/
-```
-$ sudo apt update
-$ sudo apt upgrade
-$ sudo apt install python3-pip
-$ pip3 install -f torch torchvision
-$ python3
->import torch
-```
 
 ### darknet_yolo to pytorch model
 
@@ -60,15 +52,16 @@ weights =yolov3-tiny.weights
 pth     =yolov3-tiny.pth
 input   =["input1"]
 output  =["output1", "output2"]
-onnx    =tinyyolov3_jan.onnx
+onnx    =tinyyolov3_roboken.onnx
 ```
-onnxをtinyyolov3_jan.onnxなどとします。
+onnxをtinyyolov3_roboken.onnxとします。
 
 ```
 $ cd ~/rz_ai_work/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
-
 ```
+yolov3.pthに変換されます。
+
 
 ### pytorch model to ONNX
 
@@ -76,9 +69,10 @@ convert_to_onnx.py内のinput sizeの変更もできますがtranslatorが対応
 
 ```
 $ python3 convert_to_onnx.py tinyyolov3
-
-convert_to_pytorch.py convert_to_onnx.py tinyyolov3_jan.onnx yolov3.pth
 ```
+
+tinyyolov3_roboken.onnxに変換されます。
+
 
 ### ONNX to DRP-AI model
 
@@ -86,32 +80,28 @@ convert_to_pytorch.py convert_to_onnx.py tinyyolov3_jan.onnx yolov3.pth
 $ chmod +x DRP-AI_Translator-v1.82-Linux-x86_64-Install
 $ ./DRP-AI_Translator-v1.82-Linux-x86_64-Install
 ```
- homeにdrp-ai_translator_release ができます。
+インストールが終わるとhomeにdrp-ai_translator_release フォルダーができます。
 
- onnxフォルダーに作成したonnx file をコピーします。
+ onnxフォルダーに作成したtinyyolov3_roboken.onnx file をコピーします。
+
+次にUserConfigに以下のファイルを作成します。
+
 ```
- d-tinyyolov3.onnx
-```
-UserConfigに以下のファイルを作成します。
-```
- addrmap_in_tiny_yolov3.yaml
- prepost_tiny_yolov3.yaml
+ addrmap_in_tinyyolov3_roboken.yaml
+ prepost_tiny_yolov3_roboken.yaml
 ```
 
 ### DRP-AI_Translator
 
-RP-AI用に変換します>
+RP-AI用データに変換します>
 ```
 $ cd drp-ai_translator_release
-($ ./run_DRP-AI_translator_V2L.sh tinyyolov3_bmp -onnx ./onnx/tinyyolov3_bmp.onnx)
-$ ./run_DRP-AI_translator_V2L.sh d-tinyyolov3 -onnx ./onnx/d-tinyyolov3.onnx
-
-$ python3 postprocess_yolo.py tinyyolov3
+$ ./run_DRP-AI_translator_V2L.sh tinyyolov3_robo-ken -onnx ./onnx/tinyyolov3_roboken.onnx
 ```
 
 ### netron
 
-netronでmodelの入出力を確認します。
+netronでmodelの入出力を確認します。class数が変わった場合は確認が必要です。
 
 ```
 $ sudo snap install netron
@@ -121,6 +111,7 @@ $ netron
 ### Comple sample program: app_yolo_img
 
 画像ファイルを読み込み推論結果を画像として出力します。
+
 ```
 $ source /opt/poky/3.1.17/environment-setup-aarch64-poky-linux
 $ cd /home/nishi/drpai_sp/rzv2l_drpai-sample-application/app_yolo_img/src
@@ -155,7 +146,6 @@ $ scp y2cam.tar.gz root@192.168.8.99:~root/drp
 # chmod +x sample_app_tinyyolov2_cam
 # ./sample_app_tinyyolov2_cam
 ```
-
 
 ### Linux command
 
