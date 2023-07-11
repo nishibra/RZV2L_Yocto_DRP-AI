@@ -1,6 +1,6 @@
 # RZV2L_Yocto_DRP-AI
 
-ルネサスのDRP-AIの使い方をサンプルを実行し学びます。
+ルネサスのDRP-AI~を使いサンプルを実行し学びます。
 
 ## Refernce
 
