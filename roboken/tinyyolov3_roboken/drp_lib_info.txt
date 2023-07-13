@@ -1,0 +1,60 @@
+13  # driver version  v0.2 
+52  # driver version >v0.3
+# resize_hwc  [MASK : ON]
+# imagescaler  [MASK : ON]
+# maxpooling_k2_st2  [MASK : ON]
+# maxpooling_k2_st2  [MASK : ON]
+# maxpooling_k2_st2  [MASK : ON]
+# maxpooling_k2_st2  [MASK : ON]
+# maxpooling_k2_st2  [MASK : ON]
+# maxpooling_k2_st1  [MASK : ON]
+# resize_onnx  [MASK : ON]
+# transpose  [MASK : ON]
+# cast_fp16_fp32  [MASK : ON]
+# transpose  [MASK : ON]
+# cast_fp16_fp32  [MASK : ON]
+# ============================
+# Address data in drp_param.bin
+# DRP LIB name[Layer Name]
+# [Start position], [Size(Byte)], [Param name], [Value]
+resize_hwc[post_0_0_resize_hwc]
+Start:0[Byte],Size:4[Byte],Param:raddr,Value:0x80000000
+Start:4[Byte],Size:4[Byte],Param:waddr,Value:0x80070800
+imagescaler[post_0_0_imagescaler]
+Start:56[Byte],Size:4[Byte],Param:raddr,Value:0x80070800
+Start:60[Byte],Size:4[Byte],Param:waddr,Value:0x800ef400
+Start:104[Byte],Size:4[Byte],Param:ADD_ADDR,Value:0x8107b000
+Start:108[Byte],Size:4[Byte],Param:MUL_ADDR,Value:0x8107b008
+maxpooling_k2_st2[/module_list.1/maxpool_1/MaxPool_output_0]
+Start:120[Byte],Size:4[Byte],Param:raddr,Value:0x801ecc00
+Start:124[Byte],Size:4[Byte],Param:waddr,Value:0x80734c00
+maxpooling_k2_st2[/module_list.3/maxpool_3/MaxPool_output_0]
+Start:176[Byte],Size:4[Byte],Param:raddr,Value:0x80886c00
+Start:180[Byte],Size:4[Byte],Param:waddr,Value:0x80b2ac00
+maxpooling_k2_st2[/module_list.5/maxpool_5/MaxPool_output_0]
+Start:232[Byte],Size:4[Byte],Param:raddr,Value:0x80bd3c00
+Start:236[Byte],Size:4[Byte],Param:waddr,Value:0x80d25c00
+maxpooling_k2_st2[/module_list.7/maxpool_7/MaxPool_output_0]
+Start:288[Byte],Size:4[Byte],Param:raddr,Value:0x80d7a400
+Start:292[Byte],Size:4[Byte],Param:waddr,Value:0x80e23400
+maxpooling_k2_st2[/module_list.9/maxpool_9/MaxPool_output_0]
+Start:344[Byte],Size:4[Byte],Param:raddr,Value:0x80f55a00
+Start:348[Byte],Size:4[Byte],Param:waddr,Value:0x80e4d800
+maxpooling_k2_st1[/module_list.11/maxpool_11/MaxPool_output_0]
+Start:400[Byte],Size:4[Byte],Param:raddr,Value:0x80e62a00
+Start:404[Byte],Size:4[Byte],Param:waddr,Value:0x80e8ce00
+resize_onnx[/module_list.19/upsample_19/Resize_output_0]
+Start:456[Byte],Size:4[Byte],Param:raddr,Value:0x80f4b000
+Start:460[Byte],Size:4[Byte],Param:waddr,Value:0x80f55900
+transpose[post_0_0_transpose]
+Start:512[Byte],Size:4[Byte],Param:raddr,Value:0x81028d00
+Start:516[Byte],Size:4[Byte],Param:waddr,Value:0x81037aa8
+cast_fp16_fp32[post_0_1_cast_fp16_fp32]
+Start:568[Byte],Size:4[Byte],Param:raddr,Value:0x81037aa8
+Start:572[Byte],Size:4[Byte],Param:waddr,Value:0x81046880
+transpose[post_1_0_transpose]
+Start:624[Byte],Size:4[Byte],Param:raddr,Value:0x8102bc88
+Start:628[Byte],Size:4[Byte],Param:waddr,Value:0x8103aa30
+cast_fp16_fp32[post_1_1_cast_fp16_fp32]
+Start:680[Byte],Size:4[Byte],Param:raddr,Value:0x8103aa30
+Start:684[Byte],Size:4[Byte],Param:waddr,Value:0x8104c790
