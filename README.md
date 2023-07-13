@@ -164,14 +164,6 @@ SSH パスワード認証対応法
 https://zenn.dev/seiwell/articles/98ea9c97aa7992
 
 
-### YOLOv2で物体検出を学習させてみよう
-
-https://qiita.com/sudamasahiko/items/97441202897cb8976f82
-
-https://qiita.com/garcoo/items/c21ff0e48e495420c0d1
-
-https://github.com/leetenki/YOLOv2/blob/master/YOLOv2.md
-
 
 ### Sample--app_usbcam_http
 
@@ -201,44 +193,4 @@ $ scp web.tar.gz root@192.168.8.99:~root
 ```
 
 etc/Websocket_Client directory をPCにコピーして表示します。
-
-DRP-AIのerror
-```
-cd drp-ai_translator_release
-cd output
-tar -zcvf mod.tar.gz d-tinyyolov3
-scp mod.tar.gz root@192.168.8.99:~root
-
-別画面
-$ ssh root@192.168.8.99
-# tar -xzvf mod.tar.gz exe/
-```
-
-### yolo.iniの編集
-```
-[tinyyolov2]
-cfg     =yolov2-tiny.cfg
-weights =yolov2-tiny.weights
-pth     =yolov2-tiny.pth
-input   =["input1"]
-output  =["output1"]
-onnx    =d-tinyyolov2.onnx
-```
-
-```
-python3 convert_to_pytorch.py tinyyolov2
-```
-yolov2-tiny.pthができる。
-```
-python3 convert_to_onnx.py tinyyolov2
-```
-d-tinyyolov2.onnxができる。
-
-```
-cd drp-ai_translator_release
-./run_DRP-AI_translator_V2L.sh d-tinyyolov2 -onnx ./onnx/d-tinyyolov2.onnx
-```
-
-
-{"shinai","edge","kote","dou","men","Stand","down"};
 
