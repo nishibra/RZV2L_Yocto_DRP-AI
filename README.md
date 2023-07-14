@@ -45,6 +45,9 @@ https://www.linode.com/docs/guides/pytorch-installation-ubuntu-2004/
 Rexsasのサイトからダウンロードしたrzv21l-drpai_sp.zip からrzv_ai-implementation-guideの中のdarknet_yoloを解答します。
 yolo.iniで出力名を変更できます。
 
+>Yolo-v3-tiny ROBO-Ken Modelは以下よりdownloadできます。: 
+[Yolo-v3-tiny ROBO-Ken Model zip file](http://www.arrc.jp/auto/TinyYolov3_ROBOKEN_model.zip)
+
 ```
 [tinyyolov3]
 cfg     =yolov3-tiny.cfg
