@@ -93,7 +93,7 @@ def main():
     cap.set(3,w*2)
     cap.set(4,h)
 
-    UDP_IP = "192.168.8.178" #"127.0.0.1"178
+    UDP_IP = "192.168.8.172" #"127.0.0.1"178
     UDP_PORT = 8080
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 #
@@ -123,7 +123,7 @@ def main():
                 label=str(int(z))+"mm,"+str(int(fps))+"fps"
                 print ("p.c.=",x,y,z,fps)
                 cv2.putText(frameL,label ,(0,30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255,255), thickness=1)
-        cv2.imshow('frameL',frameL)
+        #cv2.imshow('frameL',frameL)
         #frame = cv2.resize(mask, (320,240))
         frame = cv2.resize(frameL, (320,240))
         _, data = cv2.imencode('.jpg', frame)

@@ -45,65 +45,16 @@
 #include <math.h>
 
 /*****************************************
-* Common Static Variables
-*  - input_img = input image to DRP-AI (size and format are determined in DRP-AI Translator)
-*  - output_img = output image from the application with bounding box
-******************************************/
-//const static std::string input_img      = "sample.bmp";
-//const static std::string output_img     = "sample_output.bmp";
-
-/*****************************************
-* Static Variables and Macro for each YOLO model
-******************************************/
-#if defined(YOLOV3)
-/*****************************************
-* YOLOv3
-******************************************/
-/* Directory name of DRP-AI Object files (DRP-AI Translator output) */
-const static std::string drpai_prefix   = "yolov3_roboken";
-/* Class labels to be classified */
-const static std::string label_list     = "obj.names";
-/* Empty since labels will be loaded from label_list file */
-static std::vector<std::string> label_file_map = {};
-
-/* Number of class to be detected */
-#define NUM_CLASS           (1)
-/* Number for [yolo] layer num parameter */
-#define NUM_BB              (3)
-/* Number of output layers. This value MUST match with the length of num_grids[] below */
-#define NUM_INF_OUT_LAYER   (3)
-/* Number of grids in the image. The length of this array MUST match with the NUM_INF_OUT_LAYER */
-const static uint8_t num_grids[] = { 13, 26, 52 };
-/* Number of DRP-AI output */
-const static uint32_t num_inf_out =  (NUM_CLASS + 5) * NUM_BB * num_grids[0] * num_grids[0]
-                                + (NUM_CLASS + 5) * NUM_BB * num_grids[1] * num_grids[1]
-                                + (NUM_CLASS + 5) * NUM_BB * num_grids[2] * num_grids[2];
-/* Anchor box information */
-const static double anchors[] =
-{
-    10, 13,
-    16, 30,
-    33, 23,
-    30, 61,
-    62, 45,
-    59, 119,
-    116, 90,
-    156, 198,
-    373, 326
-};
-
-#elif defined(TINYYOLOV3)
-/*****************************************
 * Tiny YOLOv3
 ******************************************/
 /* Directory name of DRP-AI Object files (DRP-AI Translator output) */
 const static std::string drpai_prefix   = "tinyyolov3_roboken";
 /* Class labels to be classified */
-const static std::string label_list     = "obj.names";
+//const static std::string label_list     = "obj.names";
 /* Empty since labels will be loaded from label_list file */
 static std::vector<std::string> label_file_map = {};
 /* Number of class to be detected */
-#define NUM_CLASS           (1)
+#define NUM_CLASS           (7)
 /* Number for [yolo] layer num parameter */
 #define NUM_BB              (3)
 /* Number of output layers. This value MUST match with the length of num_grids[] below */
@@ -123,8 +74,6 @@ const static double anchors[] =
     135, 169,
     344, 319
 };
-
-#endif
 
 /*****************************************
 * Static Variables (No need to change)
@@ -147,7 +96,9 @@ const static std::string drpai_file_path[5] =
 /* Size of input image to the model */
 #define MODEL_IN_W              (416)
 #define MODEL_IN_H              (416)
-
+/* Thresholds */
+#define TH_PROB                 (0.5f)
+#define TH_NMS                  (0.5f)
 /*****************************************
 * Common Macro for Application
 ******************************************/

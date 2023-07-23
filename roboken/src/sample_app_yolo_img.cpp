@@ -22,7 +22,7 @@
 * Description  : RZ/V2L DRP-AI Sample Application for Darknet-PyTorch YOLO Image version
 ***********************************************************************************************************************/
 //
-// 2023.07.15 ARRAGED FOR ROBO-KEN COMPETITION BY T.Nishimura@AiRRC
+// 2023.07.15 ARRANGED FOR ROBO-KEN COMPETITION BY T.Nishimura@AiRRC
 //
 /*****************************************
 * Includes
@@ -35,7 +35,7 @@
 #include "image.h"
 /*Image control*/
 #include "box.h"
-
+//
 using namespace std;
 /*****************************************
 * Global Variables
@@ -49,6 +49,8 @@ int8_t fd = 0;
 char addr[1024];
 
 int8_t n_class=NUM_CLASS;
+float th_prbb=TH_PROB;
+float th_nmss=TH_NMS;
 
 int8_t drpai_fd;
 fd_set rfds;
@@ -286,6 +288,7 @@ int8_t load_drpai_data(int8_t drpai_fd)
 * Return value  : 0 if succeeded
 *                 not 0 otherwise
 ******************************************/
+
 int8_t get_result(int8_t drpai_fd, uint32_t output_addr, uint32_t output_size)
 {
     drpai_data_t drpai_data;
@@ -380,20 +383,166 @@ int32_t yolo_offset(uint8_t n, int32_t b, int32_t y, int32_t x)
     }
     return prev_layer_num + b *(n_class + 5)* num * num + y * num + x;
 }
+//
+//print_result_yolo
+//
+int8_t print_result_yolo(float* floatarr, Image * img)
+{
+    /* Following variables are required for correct_yolo/region_boxes in Darknet implementation*/
+    /* Note: This implementation refers to the "darknet detector test" */
+    float new_w, new_h;
+    float correct_w = 1.;
+    float correct_h = 1.;
+    if ((float) (MODEL_IN_W / correct_w) < (float) (MODEL_IN_H/correct_h) )
+    {
+        new_w = (float) MODEL_IN_W;
+        new_h = correct_h * MODEL_IN_W / correct_w;
+    }
+    else
+    {
+        new_w = correct_w * MODEL_IN_H / correct_h;
+        new_h = MODEL_IN_H;
+    }
 
+    int32_t n = 0;
+    int32_t b = 0;
+    int32_t y = 0;
+    int32_t x = 0;
+    int32_t offs = 0;
+    int32_t i = 0;
+    float tx = 0;
+    float ty = 0;
+    float tw = 0;
+    float th = 0;
+    float tc = 0;
+    float center_x = 0;
+    float center_y = 0;
+    float box_w = 0;
+    float box_h = 0;
+    float objectness = 0;
+    uint8_t num_grid = 0;
+    uint8_t anchor_offset = 0;
+    float classes[n_class];
+    float max_pred = 0;
+    int32_t pred_class = -1;
+    float probability = 0;
+    detection d;
+    /* Clear the detected result list*/
+    det.clear();
+
+    for (n = 0; n<NUM_INF_OUT_LAYER; n++)
+    {
+        num_grid = num_grids[n];
+        anchor_offset = 2 * NUM_BB * (NUM_INF_OUT_LAYER - (n + 1));
+
+        for (b = 0;b<NUM_BB;b++)
+        {
+            for (y = 0;y<num_grid;y++)
+            {
+                for (x = 0;x<num_grid;x++)
+                {
+                    offs = yolo_offset(n, b, y, x);
+                    tx = floatarr[offs];
+                    ty = floatarr[yolo_index(n, offs, 1)];
+                    tw = floatarr[yolo_index(n, offs, 2)];
+                    th = floatarr[yolo_index(n, offs, 3)];
+                    tc = floatarr[yolo_index(n, offs, 4)];
+
+                    /* Compute the bounding box */
+                    /*get_yolo_box/get_region_box in paper implementation*/
+                    center_x = ((float) x + sigmoid(tx)) / (float) num_grid;
+                    center_y = ((float) y + sigmoid(ty)) / (float) num_grid;
+#if defined(YOLOV3) || defined(TINYYOLOV3)
+                    box_w = (float) exp(tw) * anchors[anchor_offset+2*b+0] / (float) MODEL_IN_W;
+                    box_h = (float) exp(th) * anchors[anchor_offset+2*b+1] / (float) MODEL_IN_W;
+#elif defined(YOLOV2) || defined(TINYYOLOV2)
+                    box_w = (float) exp(tw) * anchors[anchor_offset+2*b+0] / (float) num_grid;
+                    box_h = (float) exp(th) * anchors[anchor_offset+2*b+1] / (float) num_grid;
+#endif
+                    /* Adjustment for VGA size */
+                    /* correct_yolo/region_boxes */
+                    center_x = (center_x - (MODEL_IN_W - new_w) / 2. / MODEL_IN_W) / ((float) new_w / MODEL_IN_W);
+                    center_y = (center_y - (MODEL_IN_H - new_h) / 2. / MODEL_IN_H) / ((float) new_h / MODEL_IN_H);
+                    box_w *= (float) (MODEL_IN_W / new_w);
+                    box_h *= (float) (MODEL_IN_H / new_h);
+
+                    center_x = round(center_x * DRPAI_IN_WIDTH);
+                    center_y = round(center_y * DRPAI_IN_HEIGHT);
+                    box_w = round(box_w * DRPAI_IN_WIDTH);
+                    box_h = round(box_h * DRPAI_IN_HEIGHT);
+
+                    objectness = sigmoid(tc);
+
+                    Box bb = {center_x, center_y, box_w, box_h};
+                    /* Get the class prediction */
+                    for (i = 0;i < n_class;i++)
+                    {
+                        classes[i] = sigmoid(floatarr[yolo_index(n, offs, 5+i)]);
+                    }
+
+                    max_pred = 0;
+                    pred_class = -1;
+                    for (i = 0; i < n_class; i++)
+                    {
+                        if (classes[i] > max_pred)
+                        {
+                            pred_class = i;
+                            max_pred = classes[i];
+                        }
+                        //printf("RZ");
+                    }
+
+                    /* Store the result into the list if the probability is more than the threshold */
+                    probability = max_pred * objectness;
+                    if (probability > th_prbb)
+                    {
+                        d = {bb, pred_class, probability};
+                        det.push_back(d);
+                    }
+                }
+            }
+        }
+    }
+    /* Non-Maximum Supression filter */
+    filter_boxes_nms(det, det.size(), th_nmss);
+
+    /* Render boxes on image and print their details */
+//    n = 1;
+//    for (i = 0;i < det.size(); i++)
+//    {
+        /* Skip the overlapped bounding boxes */
+//        if (det[i].prob == 0) continue;
+
+        /* Print the box details on console */
+//        print_box(det[i], n++);
+
+        /* Draw the bounding box on the image */
+//        stringstream stream;
+//        stream << fixed << setprecision(2) << det[i].prob;
+//        string result_str = label_file_map[det[i].c]+ " "+ stream.str();
+//        img->draw_rect((int32_t) det[i].bbox.x, (int32_t)det[i].bbox.y,
+//            (int32_t)det[i].bbox.w, (int32_t)det[i].bbox.h, result_str.c_str());
+//    }
+    return 0;
+}
 //----------------------------------
 //
 // DRP-AI initialize
 //
 //----------------------------------------------------------------------------------
-extern "C" int32_t drpai_ini(int32_t a)
+extern "C" int32_t drpai_ini(int8_t classNo)
 {
+    
     printf("RZ/V2L DRP-AI Sample Application\n");
     printf("Model : Darknet YOLO      | %s\n", drpai_prefix.c_str());
     int32_t ret = 0;
-    
     int32_t read_ret = 0;
+    
+    
+    printf("initialize class=%d <- %d\n",n_class,classNo);
+    n_class=classNo;      
     errno = 0;
+    
     fd = open("/sys/class/u-dma-buf/udmabuf0/phys_addr", O_RDONLY);
     if (0 > fd)
     {
@@ -471,16 +620,83 @@ end_main1:
     return -999;
 }
 
+
+extern "C" {
+
+    void get_string_array(char** &result, int* length)
+     {
+        const char* array[1024];
+        string str[1024];
+        char numStr0[256];
+        char numStr1[256];
+        char numStr2[256];
+        char numStr3[256];
+        char numStr4[256];
+        char numStr5[256];
+        int i;
+        int j;
+        int s;
+        int p;
+        int n;       
+        s=det.size();
+        n=0;
+        for (i = 0;i < s; i++){
+           /* Skip the overlapped bounding boxes */
+           
+           //if (det[i].prob == 0) continue;
+
+           
+           
+           
+           str[n*6+0]=to_string(det[i].c);
+           array[n*6+0]=str[n*6+0].c_str();
+           
+           str[n*6+1]=to_string(int(det[i].prob*100));
+           array[n*6+1]=str[n*6+1].c_str();
+           
+           str[n*6+2]=to_string(int(det[i].bbox.x));
+           array[n*6+2]=str[n*6+2].c_str();   
+                 
+           str[n*6+3]=to_string(int(det[i].bbox.y));
+           
+           array[n*6+3]=str[n*6+3].c_str();
+          
+           str[n*6+4]=to_string(int(det[i].bbox.w));
+           array[n*6+4]=str[n*6+4].c_str(); 
+          
+           str[n*6+5]=to_string(int(det[i].bbox.h));
+           array[n*6+5]=str[n*6+5].c_str(); 
+        
+          // printf("(X, Y, W, H)    :- (%d,%d,%d,%d)\n",(int32_t) det[i].bbox.x, (int32_t) det[i].bbox.y, (int32_t) det[i].bbox.w, (int32_t) det[i].bbox.h);
+            
+           n=n+1;
+           
+        }
+      
+       *length = s*6;
+       result = new char*[*length];
+       
+       for (j = 0; j < *length; j++) {
+          result[j] = new char[strlen(array[j]) + 1];
+          strcpy(result[j], array[j]);
+       }
+        
+    }
+}
+
 //------------------------------------------------
 //
 // DRP-AI inference
 //
 //------------------------------------------------
 
-extern "C" {int32_t drpai_inf(unsigned char *c_buf,int8_t n_class){
+extern "C" {int32_t drpai_inf(unsigned char *c_buf,int8_t th_prb,int8_t th_nms){
     Image img;
     int32_t ret = 0;
-    printf("Inference -----------------------------------------------\n");
+    th_prbb=th_prb/100.;
+    th_nmss=th_nms/100.;
+    printf("prob nms=%d %d\n",th_prb,th_nms);
+    
     img.init(DRPAI_IN_WIDTH, DRPAI_IN_HEIGHT, DRPAI_IN_CHANNEL_BGR);
     ret = img.get_bmp(c_buf);
     
@@ -550,6 +766,15 @@ extern "C" {int32_t drpai_inf(unsigned char *c_buf,int8_t n_class){
     if (0 != ret)
     {
         fprintf(stderr, "[ERROR] Failed to get result from memory.\n");
+        ret = -1;
+        goto end_close_drpai;
+    }
+    /* Compute the result, draw the result on img and display it on console */
+    ret = print_result_yolo(drpai_output_buf, &img);
+   
+    if (0 != ret)
+    {
+        fprintf(stderr, "[ERROR] Failed to run CPU Post Processing.\n");
         ret = -1;
         goto end_close_drpai;
     }
