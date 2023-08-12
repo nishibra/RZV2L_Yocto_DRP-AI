@@ -63,7 +63,7 @@ onnxをtinyyolov3_roboken.onnxとします。
 $ cd ~/rz_ai_work/darknet/yolo
 $ python3 convert_to_pytorch.py tinyyolov3
 ```
-yolov3.pthに変換されます。
+yolov3-tiny.pthに変換されます。
 
 
 ### pytorch model to ONNX
